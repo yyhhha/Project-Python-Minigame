@@ -55,12 +55,7 @@ def RunStrike():
 def close():
     window.quit()
     window.destroy()        
-#menu = Menu(window)
-#
-#menu_file = Menu(menu,tearoff=0)
-#menu_file.add_command(label="run",command =RunStrike )##usernum과 computer를 비교하여 출력해주는 커맨드를 만들어서 넣을 예정
-#menu_file.add_cascade(label="File",menu=menu_file)
-#window.config(menu=menu)##윈도우 메뉴창에 메뉴 생성.
+
 #        
 def Init():
     user.clear()
@@ -79,11 +74,7 @@ menubar.add_cascade(label="Edit", menu=menu2)
 window.config(menu=menubar)
 ##################################33
 
-#strike_count = 0 ## 스트라이크 카운트
-#bol_count = 0 ## 볼 카운
 user=[] ## 사용자 숫자 정보를 넣기위한 리스트
-photoArr=[["1.gif", "2.gif", "3.gif", "4.gif", "5.gif",
-         "6.gif", "7.gif", "8.gif", "9.gif"]]## 포문을 이용해서 이미지를 넣을 예정
 ## 컴퓨터 숫자 3개 입력.
 com=[] 
 while True: 
@@ -103,98 +94,30 @@ window.resizable(False, False)
 label=tkinter.Label(window, text="이름을 입력 후 save\n규칙 1에서 9사이에 겹치치 않는 숫자 3개 클릭 후 첫번째 메뉴에서 실행버튼클릭\n 실행버튼 이후 계속 도전을 하기위해 두번째 메뉴에서 초기화 버튼을 클릭 후 진행")
 label.pack()
 
-#btn = Button(window, text='종료', command=quit)    # quit는 프로그램을 종료시킨다
-#btn.pack()
 
 #### 이미지 버튼 함수.
-def ClickNum1():
-     if len(user)<3:
-        user.append(int(1))
-        messagebox.showinfo("yes", "숫자1이 입력됩니다")
-   
-        
-def ClickNum2():
+def ClickNum(n):
     if len(user)<3:
-        user.append(int(2))
-        messagebox.showinfo("yes", "숫자2가 입력됩니다")
-def ClickNum3():
-    if len(user)<3:
-        user.append(int(3))
-        messagebox.showinfo("yes", "숫자3이 입력됩니다")
-def ClickNum4():
-    if len(user)<3:
-        user.append(int(4))
-        messagebox.showinfo("yes", "숫자4가 입력됩니다")
-def ClickNum5():
-    if len(user)<3:
-        user.append(int(5))
-        messagebox.showinfo("yes", "숫자5가 입력됩니다")
-def ClickNum6():
-    if len(user)<3:
-        user.append(int(6))
-        messagebox.showinfo("yes", "숫자6이 입력됩니다")
-def ClickNum7():
-    if len(user)<3:
-        user.append(int(7))
-        messagebox.showinfo("yes", "숫자7이 입력됩니다")
-def ClickNum8():
-    if len(user)<3:
-        user.append(int(8))
-        messagebox.showinfo("yes", "숫자8이 입력됩니다")
-def ClickNum9():
-    if len(user)<3:
-        user.append(int(9))  
-        messagebox.showinfo("yes", "숫자9가 입력됩니다")
-####
-    
-##########################이미지 버튼식으로 넣어 클릭 시 데이터 저장. ######
-photo = PhotoImage(file="./1.gif",master=window)
-lbl = Button(window, image=photo,command = ClickNum1)
-lbl.pack(side=LEFT)
+        user.append(int(n))
+        messagebox.showinfo("yes", "숫자{}이 입력됩니다".format(n))
 
-photo2 = PhotoImage(file="./2.gif",master=window)
-lbl2 = Button(window, image=photo2,command = ClickNum2)
-lbl2.pack(side=LEFT)
-
-
-photo3 = PhotoImage(file="./3.gif",master=window)
-lbl3 = Button(window, image=photo3,command = ClickNum3)
-lbl3.pack(side=LEFT)
-
-
-photo4 = PhotoImage(file="./4.gif",master=window)
-lbl4 = Button(window, image=photo4,command = ClickNum4)
-lbl4.pack(side=LEFT)
-
-
-photo5 = PhotoImage(file="./5.gif",master=window)
-lbl5 = Button(window, image=photo5,command = ClickNum5)
-lbl5.pack(side=LEFT)
-
-
-photo6 = PhotoImage(file="./6.gif",master=window)
-lbl6 = Button(window, image=photo6,command = ClickNum6)
-lbl6.pack(side=LEFT)
-
-
-photo7 = PhotoImage(file="./7.gif",master=window)
-lbl7 = Button(window, image=photo7,command = ClickNum7)
-lbl7.pack(side=LEFT)
-
-
-photo8 = PhotoImage(file="./8.gif",master=window)
-lbl8 = Button(window, image=photo8,command = ClickNum8)
-lbl8.pack(side=LEFT)
-
-
-photo9 = PhotoImage(file="./9.gif",master=window)
-lbl9 = Button(window, image=photo9,command = ClickNum9)
-lbl9.pack(side=LEFT)
 ####################################
+for i in range(1,10):
+    globals()['photo{}'.format(i)] = PhotoImage(file="./"+str(i)+".gif",master=window)
 
+lbl1 = Button(window, image=photo1,command = lambda: ClickNum(1))
+lbl2 = Button(window, image=photo2,command = lambda: ClickNum(2))
+lbl3 = Button(window, image=photo3,command = lambda: ClickNum(3))
+lbl4 = Button(window, image=photo4,command = lambda: ClickNum(4))
+lbl5 = Button(window, image=photo5,command = lambda: ClickNum(5))
+lbl6 = Button(window, image=photo6,command = lambda: ClickNum(6))
+lbl7 = Button(window, image=photo7,command = lambda: ClickNum(7))
+lbl8 = Button(window, image=photo8,command = lambda: ClickNum(8))
+lbl9 = Button(window, image=photo9,command = lambda: ClickNum(9))
 
+for i in range(1,10):
+    globals()['lbl{}'.format(i)].pack(side=LEFT)
 
 
 window.mainloop()
 
-#clear
