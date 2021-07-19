@@ -2,13 +2,22 @@ import tkinter
 from tkinter import *
 from tkinter import messagebox
 import random
-
-window=tkinter.Tk()
-####
+import pygame
+from pygame import mixer
+###GUI tkinter사용 bgm pygame.mixer사용
+window=tkinter.Tk()##tkinter객체 생성
 lbl = Label(window, text="이름") 
 lbl.pack()
 userName =''
 
+##### 배경음악
+mixer.init()##mixer초기화
+mixer.music.load("Itro.mp3")#음악 파일 로드
+mixer.music.play(-1)# 음악 재생 -1을 넣어주면 무한반복
+
+base = PhotoImage(file = "base2.gif")#배경화면 이미지 지정
+base_label = Label(image = base)#
+base_label.place(x = 0, y = 0)#사진의 위치 지정
 ##글자를 입력받을 텍스트위젯
 ## 이름을 입력받게 하여 게임이 끝난 후 이름과 
 ## 횟수등을 저장할 예정
@@ -46,28 +55,34 @@ def RunStrike():
 #    print("%d볼" % bol_count)
     if(com==user):
         messagebox.showinfo("yes", "%d 번만에 정답!!" % cnt)
+        #정답이면 tkinter객체
+        mixer.quit() 
         window.quit()
         window.destroy()
-#        print("%d 번만에 정답!!" % cnt)
-#        break
-#        
+        pygame.quit()
+        sys.exit()
         
+#음악 종료와 tkinter,pygame,mixer
 def close():
+    mixer.quit() 
     window.quit()
-    window.destroy()        
+    window.destroy()
+    pygame.quit()
+    sys.exit()        
 
-#        
+#유저 넘버들을 초기화 
 def Init():
     user.clear()
-    
-menubar = Menu(window)
 
+##메뉴바   
+menubar = Menu(window)
+#첫번째 메뉴들 정의
 menu1 = Menu(menubar, tearoff=0)
 menu1.add_command(label="실행",command=RunStrike)
 menu1.add_separator()
 menu1.add_command(label="Exit", command=close)
 menubar.add_cascade(label="File", menu=menu1)
-
+#두번째 메뉴들 정의
 menu2 = Menu(menubar, tearoff=0, selectcolor="red")
 menu2.add_command(label="초기화", command =Init)
 menubar.add_cascade(label="Edit", menu=menu2)
@@ -83,15 +98,14 @@ while True:
         com.append(rd)
         if len(com) == 3:
             break 
-print(len(com))
-print(com)
+#print(com)
 cnt=0 ##게임 횟수 저장변수
 #######타이틀 작성 
-window.title("test")
-window.geometry("640x400+100+100")
+window.title("Strike")
+window.geometry("600x600")
 window.resizable(False, False)
 ########## 공지사항 출력. 
-label=tkinter.Label(window, text="이름을 입력 후 save\n규칙 1에서 9사이에 겹치치 않는 숫자 3개 클릭 후 첫번째 메뉴에서 실행버튼클릭\n 실행버튼 이후 계속 도전을 하기위해 두번째 메뉴에서 초기화 버튼을 클릭 후 진행")
+label=tkinter.Label(window, text="1) 이름을 입력 후 'save'를 클릭하세요!\n2) 겹치지 않는 숫자 3개 선택 후 'File -> 실행'\n3) 계속 도전하려면 'Edit -> 초기화'\n4)종료: 'File -> Exit'")
 label.pack()
 
 
@@ -102,9 +116,10 @@ def ClickNum(n):
         messagebox.showinfo("yes", "숫자{}이 입력됩니다".format(n))
 
 ####################################
+        #반복문을 돌면서 이미지를  매핑
 for i in range(1,10):
     globals()['photo{}'.format(i)] = PhotoImage(file="./"+str(i)+".gif",master=window)
-
+## 버튼에 이미지를 매핑과 커맨드를 매핑
 lbl1 = Button(window, image=photo1,command = lambda: ClickNum(1))
 lbl2 = Button(window, image=photo2,command = lambda: ClickNum(2))
 lbl3 = Button(window, image=photo3,command = lambda: ClickNum(3))
@@ -114,10 +129,9 @@ lbl6 = Button(window, image=photo6,command = lambda: ClickNum(6))
 lbl7 = Button(window, image=photo7,command = lambda: ClickNum(7))
 lbl8 = Button(window, image=photo8,command = lambda: ClickNum(8))
 lbl9 = Button(window, image=photo9,command = lambda: ClickNum(9))
-
+## 버튼 이미지들의 위치정보를 설정한다. 
 for i in range(1,10):
     globals()['lbl{}'.format(i)].pack(side=LEFT)
-
 
 window.mainloop()
 
