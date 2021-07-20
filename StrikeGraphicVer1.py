@@ -30,7 +30,7 @@ def btnsave():
     global userName ## scope가 달라 global로 지정해주지 않으면 전역 변수가 아닌 
     #지역변수를 사용하려 하여 에러가 난다. 
     userName+=txt.get("1.0",END)
-    txt.delete("1.0",END) # 텍스트 상자에 있던 내용 삭제.
+#    txt.delete("1.0",END) # 텍스트 상자에 있던 내용 삭제.
 btn = Button(window,text="save",command=btnsave) 
 btn.pack()  
 ############################
@@ -51,11 +51,10 @@ def RunStrike():
     messagebox.showinfo("yes", "%d스트라이크" % strike_count)
     messagebox.showinfo("yes", "%d볼" % bol_count) 
                 
-#    print("%d스트라이크" % strike_count)
-#    print("%d볼" % bol_count)
     if(com==user):
         messagebox.showinfo("yes", "%d 번만에 정답!!" % cnt)
         #정답이면 tkinter객체
+        SaveScore()
         mixer.quit() 
         window.quit()
         window.destroy()
@@ -64,6 +63,7 @@ def RunStrike():
         
 #음악 종료와 tkinter,pygame,mixer
 def close():
+    SaveScore()
     mixer.quit() 
     window.quit()
     window.destroy()
@@ -105,9 +105,14 @@ window.title("Strike")
 window.geometry("600x600")
 window.resizable(False, False)
 ########## 공지사항 출력. 
-label=tkinter.Label(window, text="1) 이름을 입력 후 'save'를 클릭하세요!\n2) 겹치지 않는 숫자 3개 선택 후 'File -> 실행'\n3) 계속 도전하려면 'Edit -> 초기화'\n4)종료: 'File -> Exit'")
+label=tkinter.Label(window, text="1) 이름을 입력 후 'save'를 클릭하세요!\n2) 겹치지 않는 숫자 3개 선택 후 'File -> 실행'\n3) 계속 도전하려면 'Edit -> 초기화'")
 label.pack()
-
+def SaveScore():
+    f = open('./test.txt','w',encoding='utf-8')
+    data = [userName,str(cnt)]
+    print(data)
+    f.writelines(data)
+    f.close()
 
 #### 이미지 버튼 함수.
 def ClickNum(n):
@@ -132,6 +137,6 @@ lbl9 = Button(window, image=photo9,command = lambda: ClickNum(9))
 ## 버튼 이미지들의 위치정보를 설정한다. 
 for i in range(1,10):
     globals()['lbl{}'.format(i)].pack(side=LEFT)
-
+window.protocol('WM_DELETE_WINDOW',close)
 window.mainloop()
 
